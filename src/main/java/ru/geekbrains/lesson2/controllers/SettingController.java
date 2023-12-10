@@ -10,39 +10,74 @@ import javafx.stage.Stage;
 import lombok.Getter;
 import ru.geekbrains.lesson2.Program;
 
+/**
+ * Контроллер сцены "Настройки"
+ */
 public class SettingController {
 
+    /**
+     * Выбранный размер поля
+     */
     @Getter
     private static int selectedSize = 3;
 
+    /**
+     * Выбранное количество для выигрыша
+     */
     @Getter
     private static int winCount = 3;
 
+    /**
+     * Выбранный режим игры
+     */
     @Getter
-    private static GameVariantRegime regime = GameVariantRegime.PVP;
+    private static GameRegime regime = GameRegime.PVP;
 
+    /**
+     * Слайдер размера поля
+     */
     @FXML
     private Slider FieldSizeSlider;
 
+    /**
+     * Текст выбранного размера поля
+     */
     @FXML
     private Text FieldSizeText;
 
+    /**
+     * Кнопка "Новая игра"
+     */
     @FXML
     private Button NewGameButton;
 
+    /**
+     * Слайдер количества для победы
+     */
     @FXML
     private Slider WinSizeSlider;
 
+    /**
+     * Текст размера выигрыша
+     */
     @FXML
     private Text WinSizeText;
 
+    /**
+     * Переключатель режима "Человек против AI"
+     */
     @FXML
     private RadioButton avpRadio;
 
+    /**
+     * Переключатель режима "Человек против Человека"
+     */
     @FXML
     private RadioButton pvpRadio;
 
-
+    /**
+     * Инициализация
+     */
     @FXML
     public void initialize() {
         ToggleGroup toggleGroup = new ToggleGroup();
@@ -57,6 +92,10 @@ public class SettingController {
         this.NewGameButton.setOnMouseClicked(this::fireOnNewClick);
     }
 
+    /**
+     * Событие нажатия на кнопка "Новая игра"
+     * @param mouseEvent Обработчик событий
+     */
     private void fireOnNewClick(MouseEvent mouseEvent) {
         try {
             Scene game = Program.loadScene("game");
@@ -73,25 +112,37 @@ public class SettingController {
         }
     }
 
+    /**
+     * События изменения размера для победы
+     * @param event Обработчик события
+     */
     private void fireWinSizeChanged(Observable event) {
         winCount = (int) this.WinSizeSlider.getValue();
-        this.WinSizeText.setText("Установленная длинна: " + this.winCount);
+        this.WinSizeText.setText("Установленная длинна: " + winCount);
     }
 
-    private void fileFieldSizeChanged(Observable dragEvent) {
+    /**
+     * Событие изменения размера поля
+     * @param event Обработчик события
+     */
+    private void fileFieldSizeChanged(Observable event) {
         selectedSize = (int) this.FieldSizeSlider.getValue();
-        this.FieldSizeText.setText("Установленный размер поля: " + this.selectedSize);
+        this.FieldSizeText.setText("Установленный размер поля: " + selectedSize);
     }
 
+    /**
+     * Событие переключения режима на "Человек против Человека"
+     * @param mouseEvent Обработчик события
+     */
     private void firePvpEnabled(MouseEvent mouseEvent) {
-        System.out.println("pvp work");
-        regime = GameVariantRegime.PVP;
+        regime = GameRegime.PVP;
     }
 
+    /**
+     * Событие переключения режима на "Человек против AI"
+     * @param mouseEvent Обработчик события
+     */
     private void fireAvpEnabled(MouseEvent mouseEvent) {
-        System.out.println("avp work");
-        regime = GameVariantRegime.PVE;
+        regime = GameRegime.PVE;
     }
-
-
 }

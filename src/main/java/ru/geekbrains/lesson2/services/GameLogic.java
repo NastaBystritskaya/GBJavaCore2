@@ -7,22 +7,31 @@ import javafx.scene.layout.GridPane;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Random;
-import java.util.Scanner;
 
+/**
+ * Логика игры
+ */
 @RequiredArgsConstructor
 public class GameLogic {
 
+    /**
+     * Игровое поле
+     */
     GridPane grid;
+
     private final char DOT_HUMAN = 'X'; // Фишка игрока - человека
     private final char DOT_AI = '0'; // Фишка игрока - компьютер
     private final char DOT_EMPTY = '*'; // Признак пустого поля
-    private final Scanner scanner = new Scanner(System.in);
     private final Random random = new Random();
     private char[][] field; // Двумерный массив хранит состояние игрового поля
     private final int fieldSizeX; // Размерность игрового поля
     private final int fieldSizeY; // Размерность игрового поля
     private final int WIN_COUNT; // Кол-во фишек для победы
 
+    /**
+     * Начало игры
+     * @param pane Игровое поле
+     */
     public void start(GridPane pane) {
         this.grid = pane;
             initialize();
@@ -46,6 +55,10 @@ public class GameLogic {
         }
     }
 
+    /**
+     * Событие выбора пользователя ячейки
+     * @param cell Ячейка
+     */
     private void fireCellClick(Button cell) {
         if (!cell.getText().equalsIgnoreCase(String.valueOf(DOT_EMPTY))) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -105,6 +118,10 @@ public class GameLogic {
         this.grid.add(new Label(String.valueOf(DOT_AI)), x, y);
     }
 
+    /**
+     * Блокировка пользователя
+     * @return Результат блокировки
+     */
     private boolean blockUser() {
         boolean painted = false;
         for (int row = 0; row < fieldSizeY; row++) {
@@ -123,7 +140,13 @@ public class GameLogic {
         return painted;
     }
 
-    private  boolean checkSequenceAndBlock(int x, int y) {
+    /**
+     * Проверка последовательности и блокировка
+     * @param x X Координата
+     * @param y Y Координата
+     * @return Результат проверки
+     */
+    private boolean checkSequenceAndBlock(int x, int y) {
         // проверка вертикали
         if(checkVerticalSeqAndBlock(x, y))
             return true;
@@ -133,7 +156,7 @@ public class GameLogic {
     }
 
     /**
-     * Проверка по горизонтвли и блокирование ходов
+     * Проверка по горизонтали и блокирование ходов
      * @param x X координата
      * @param y Y координата
      * @return Результат проверки
@@ -216,9 +239,9 @@ public class GameLogic {
 
     /**
      * Проверка, ячейка является пустой (DOT_EMPTY)
-     * @param x
-     * @param y
-     * @return
+     * @param x Ячейка X
+     * @param y Ячейка Y
+     * @return Результат проверки
      */
      boolean isCellEmpty(int x, int y){
         return field[x][y] == DOT_EMPTY;
@@ -249,21 +272,11 @@ public class GameLogic {
     }
 
     /**
-     * Проверка корректности ввода
-     * @param x
-     * @param y
-     * @return
-     */
-    boolean isCellValid(int x, int y){
-        return x >= 0 && x < fieldSizeX && y >= 0 && y < fieldSizeY;
-    }
-
-    /**
      * Проверка победы
      * @param c фишка игрока (X или 0)
-     * @return
+     * @return Проверка победы
      */
-    boolean checkWin(char c){
+    boolean checkWin(char c) {
 
         if(checkHorWin(c))
             return true;
@@ -298,7 +311,7 @@ public class GameLogic {
     }
 
     /**
-     * подсчет по диагонали "/"
+     * Подсчёт по диагонали "/"
      * @param c Проверяемый символ
      * @param x Х координата
      * @param y У координата
@@ -306,34 +319,26 @@ public class GameLogic {
      */
     private  int calculateRightDiag(char c, int x, int y) {
         int count = 0;
-        boolean stopFlag = false;
         for (int row = y + 1; row < fieldSizeY; row++) {
             for (int cell = x - 1; cell >= 0; cell--) {
                 if(field[row][cell] == c) {
                     count++;
                 }
                 else {
-                    stopFlag = false;
                     break;
                 }
             }
-            if(stopFlag)
-                break;
         }
 
-        stopFlag = false;
         for (int row = y - 1; row >= 0; row--) {
             for (int cell = x + 1; cell < fieldSizeX; cell++) {
                 if(field[row][cell] == c) {
                     count++;
                 }
                 else {
-                    stopFlag = false;
                     break;
                 }
             }
-            if(stopFlag)
-                break;
         }
 
         return count;
@@ -349,34 +354,26 @@ public class GameLogic {
      */
     private  int calculateLeftDiag(char c, int x, int y) {
         int count = 1;
-        boolean stopFlag = false;
         for (int row = y - 1; row >= 0; row--) {
             for (int cell = x - 1; cell >= 0; cell--) {
                 if(field[row][cell] == c) {
                     count++;
                 }
                 else {
-                    stopFlag = false;
                     break;
                 }
             }
-            if(stopFlag)
-                break;
         }
 
-        stopFlag = false;
         for (int row = y + 1; row < fieldSizeY; row++) {
             for (int cell = x + 1; cell < fieldSizeX; cell++) {
                 if(field[row][cell] == c) {
                     count++;
                 }
                 else {
-                    stopFlag = false;
                     break;
                 }
             }
-            if(stopFlag)
-                break;
         }
 
         return count;
@@ -423,7 +420,6 @@ public class GameLogic {
 
     /**
      * Проверка на ничью
-     * @return
      */
      boolean checkDraw(){
         for (int i = 0; i < fieldSizeY; i++){

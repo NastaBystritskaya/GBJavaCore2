@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -19,19 +18,37 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+/**
+ * Контроллер чата
+ */
 public class ChatController {
 
+    /**
+     * Файл с чатом
+     */
     Path chat = Paths.get("chat/chat.txt");
 
+    /**
+     * Обертка чата
+     */
     @FXML
     private VBox dialogPane;
 
+    /**
+     * Поле сообщения
+     */
     @FXML
     private TextField messageField;
 
+    /**
+     * Кнопка отправить
+     */
     @FXML
     private Button sendButton;
 
+    /**
+     * Инициализация сцены
+     */
     @FXML
     public void initialize() {
         this.messageField.setOnKeyPressed(this::enterPressed);
@@ -49,15 +66,26 @@ public class ChatController {
         }
     }
 
+    /**
+     * Событие нажатия кнопки "Отправить"
+     * @param mouseEvent Обработчик событий
+     */
     private void fireSendClicked(MouseEvent mouseEvent) {
         this.saveMessage();
     }
 
+    /**
+     * Нажатие над полем "Сообщение" кнопки "Enter"
+     * @param keyEvent Обработчик событий
+     */
     private void enterPressed(KeyEvent keyEvent) {
         if(keyEvent.getCode() == KeyCode.ENTER)
             this.saveMessage();
     }
 
+    /**
+     * Сохранение сообщения в чат
+     */
     public void saveMessage() {
         System.out.println(this.messageField.getText());
         try {
