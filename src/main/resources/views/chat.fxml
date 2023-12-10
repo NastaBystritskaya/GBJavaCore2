@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="348.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.geekbrains.lesson2.controllers.ChatController">
+   <children>
+      <TextField fx:id="messageField" layoutX="14.0" layoutY="345.0" prefHeight="26.0" prefWidth="223.0" promptText="Введите ообщение..." />
+      <Button fx:id="sendButton" layoutX="258.0" layoutY="346.0" mnemonicParsing="false" text="Отправить" />
+      <VBox fx:id="dialogPane" layoutX="34.0" layoutY="34.0" prefHeight="290.0" prefWidth="292.0" />
+   </children>
+</AnchorPane>
